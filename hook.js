@@ -19,6 +19,11 @@ Hook.prototype.addStep = function (step) {
 }
 
 Hook.prototype.attachStackError = function (stack) {
+    if (JSON.stringify(stack).includes('AssertionError')) {
+        this.state = 'fail'
+    } else {
+        this.state = 'broken'
+    }
     this.errorStack = stack
 }
 
