@@ -18,7 +18,8 @@ Suit.prototype.getCurrentHook = function () {
     return this.currentHook
 }
 
-Suit.prototype.endHook = function () {
+Suit.prototype.endHook = function (data) {
+    this.getCurrentHook().endHook(data)
     this.currentHook = null
 }
 
