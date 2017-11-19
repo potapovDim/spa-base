@@ -47,7 +47,7 @@ Test.prototype.attachFile = function (dir, file) {
 Test.prototype.endTest = function (date) {
     this.state = date.state
     this.speed = date.speed
-    this.timeEnd = + new Date()
+    this.timeEnd = +new Date()
 }
 
 Test.prototype.toJSON = function () {
@@ -59,7 +59,7 @@ Test.prototype.toJSON = function () {
         timeStart: self.timeStart,
         timeEnd: self.timeEnd,
         errorStack: self.errorStack,
-        durration: self.timeEnd - self.timeStart,
+        duration: self.timeEnd - self.timeStart,
         steps: [...self.steps.map(step => step.toJSON())]
     }
 }

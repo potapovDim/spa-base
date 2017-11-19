@@ -46,15 +46,8 @@ const outputFile = (dir, data, id) => {
     }
 }
 
-
 const generateReport = (dir, runStructure) => {
-    const fs = require('fs')
-    fs.writeFile(`./spa-report/${dir}/test.json`, JSON.stringify(runStructure, null, '\t'), (err) => {
-        if (err) {
-            console.log(err)
-        }
-    })
-
+    require('fs').writeFileSync(`./spa-report/${dir}/test.json`, JSON.stringify(runStructure, null, '\t'))
 }
 
 const assertRootDirExist = () => {
