@@ -5,24 +5,24 @@ const {
     writeFile
 } = require('./utils')
 
-const { Step } = require('./step')
+const {Step} = require('./step')
 
 function Spa() {
-    this.dirName = `Date-${new Date().toLocaleDateString()}@Time-${new Date().getHours()}-${new Date().getMinutes()}`
+    this.dirName = `${Date.now()}`
     this.opts = {}
     this.suits = []
     this.currentSuit = null
     this.stats = null
 }
 
-Spa.prototype.runSuit = function (suit) {
+Spa.prototype.runSuit = function(suit) {
     assertResultDirExist(this.dirName)
     this.currentSuit = suit
     this.suits.push(suit)
 }
 
-Spa.prototype.attachStackError = function (err) {
-    if (this.getCurrentSuit().getCurrentTest()) {
+Spa.prototype.attachStackError = function(err) {
+    if(this.getCurrentSuit().getCurrentTest()) {
         this.getCurrentSuit().getCurrentTest().attachStackError(err)
     } else if(this.getCurrentSuit().getCurrentHook()) {
         this.getCurrentSuit().getCurrentHook().attachStackError(err)
@@ -30,23 +30,23 @@ Spa.prototype.attachStackError = function (err) {
     }
 }
 
-Spa.prototype.getCurrentSuit = function () {
+Spa.prototype.getCurrentSuit = function() {
     return this.currentSuit
 }
 
-Spa.prototype.attachData = function (data) {
+Spa.prototype.attachData = function(data) {
     this.getCurrentSuit().getCurrentTest().attachFile(this.dirName, data)
 }
 
-Spa.prototype.createStep = function (title) {
+Spa.prototype.createStep = function(title) {
     this.getCurrentSuit().getCurrentTest().addStep(new Step(title))
 }
 
-Spa.prototype.endSuit = function () {
+Spa.prototype.endSuit = function() {
     this.currentSuit = null
 }
 
-Spa.prototype.toJSON = function (stats) {
+Spa.prototype.toJSON = function(stats) {
     const self = this
     return {
         stats,
@@ -54,7 +54,7 @@ Spa.prototype.toJSON = function (stats) {
     }
 }
 
-Spa.prototype.createReport = function (stats) {
+Spa.prototype.createReport = function(stats) {
     const fs = require('fs')
     const path = require('path')
     const data = this.toJSON(stats)
@@ -62,7 +62,7 @@ Spa.prototype.createReport = function (stats) {
 }
 
 
-Spa.prototype.buidPublickApi = function () {
+Spa.prototype.buidPublickApi = function() {
     const self = this
     return {
         createStep: self.createStep.bind(self),
