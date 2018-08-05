@@ -29,7 +29,7 @@ const outputFile = (dir, data, id) => {
 }
 
 const generateReport = (dir, runStructure) => {
-    fs.writeFileSync(`./spa-report/${dir}/test.json`, JSON.stringify(runStructure, null, '\t'))
+    fs.writeFileSync(`./spa-report/${dir}/${idGenerator(8)}-suit.json`, JSON.stringify(runStructure, null, '\t'))
 }
 
 const assertRootDirExist = () => {
