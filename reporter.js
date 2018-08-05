@@ -8,7 +8,16 @@ const {
 const {Step} = require('./step')
 
 function Spa() {
-    this.dirName = `${Date.now()}`
+    function toLastDay(time) {
+        let lastDay = 0
+        const arr = time.split('')
+        for(let i = arr.length - 1; i > 0; i--) {
+            arr[i] = '0'; lastDay++
+            if(lastDay === 8) return arr.join('')
+        }
+    }
+
+    this.dirName = toLastDay(`${Date.now()}`)
     this.opts = {}
     this.suits = []
     this.currentSuit = null
