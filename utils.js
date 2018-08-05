@@ -11,20 +11,22 @@ const idGenerator = (length) => {
     return id
 }
 
-
 const assertConvertToJson = (data) => {
     if(typeof data === 'string') {return false}
     try {JSON.stringify(data); return true}
     catch(e) {return false}
 }
 
-const outputFile = (dir, data, id) => {
+const outputFile = (dir, data, id, cb) => {
     if(data instanceof Buffer && data.length !== 0) {
-        fs.writeFileSync(path.resolve(process.cwd(), `./spa-report/${dir}/${id}.png`), data)
+        const fileName = `${id}.png`; cb(fileName)
+        fs.writeFileSync(path.resolve(process.cwd(), `./spa-report/${dir}/${fileName}`), data)
     } else if(assertConvertToJson(data)) {
-        fs.writeFileSync(path.resolve(process.cwd(), `./spa-report/${dir}/${id}.json`), JSON.stringify(data, null, '\t'))
+        const fileName = `${id}.json`; cb(fileName)
+        fs.writeFileSync(path.resolve(process.cwd(), `./spa-report/${dir}/${fileName}`), JSON.stringify(data, null, '\t'))
     } else {
-        fs.writeFileSync(path.resolve(process.cwd(), `./spa-report/${dir}/${id}.txt`), data)
+        const fileName = `${id}.txt`; cb(fileName)
+        fs.writeFileSync(path.resolve(process.cwd(), `./spa-report/${dir}/${fileName}`), data)
     }
 }
 
