@@ -19,6 +19,7 @@ function Spa() {
 
     this.dirName = toLastDay(`${Date.now()}`)
     this.opts = {}
+    this.browser = ''
     this.suits = []
     this.currentSuit = null
     this.stats = null
@@ -58,9 +59,14 @@ Spa.prototype.endSuit = function() {
 Spa.prototype.toJSON = function(stats) {
     const self = this
     return {
-        stats,
+        stat,
+        browser: self.browser,
         suits: [...self.suits.map(suit => suit.toJSON())]
     }
+}
+
+Spa.prototype.currentBrowser = function(browser) {
+    this.browser = browser
 }
 
 Spa.prototype.createReport = function(stats) {
@@ -75,7 +81,8 @@ Spa.prototype.buidPublickApi = function() {
     const self = this
     return {
         createStep: self.createStep.bind(self),
-        attachData: self.attachData.bind(self)
+        attachData: self.attachData.bind(self),
+        currentBrowser: self.currentBrowser.bind(self)
     }
 }
 
