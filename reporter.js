@@ -59,7 +59,8 @@ Spa.prototype.endSuit = function() {
 Spa.prototype.toJSON = function(stats) {
     const self = this
     return {
-        stat,
+        stats,
+        opts: this.opts,
         browser: self.browser,
         suits: [...self.suits.map(suit => suit.toJSON())]
     }
@@ -67,6 +68,10 @@ Spa.prototype.toJSON = function(stats) {
 
 Spa.prototype.currentBrowser = function(browser) {
     this.browser = browser
+}
+
+Spa.prototype.addEnvOpts = function(opts) {
+    this.opts = Object.assign(this.opts, opts)
 }
 
 Spa.prototype.createReport = function(stats) {
@@ -82,7 +87,8 @@ Spa.prototype.buidPublickApi = function() {
     return {
         createStep: self.createStep.bind(self),
         attachData: self.attachData.bind(self),
-        currentBrowser: self.currentBrowser.bind(self)
+        currentBrowser: self.currentBrowser.bind(self),
+        setEnvOpts: self.addEnvOpts.bind(self)
     }
 }
 
