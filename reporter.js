@@ -19,7 +19,6 @@ function Spa() {
 
     this.dirName = toLastDay(`${Date.now()}`)
     this.opts = {}
-    this.browser = ''
     this.suits = []
     this.currentSuit = null
     this.stats = null
@@ -67,7 +66,7 @@ Spa.prototype.toJSON = function(stats) {
 }
 
 Spa.prototype.currentBrowser = function(browser) {
-    this.browser = browser
+    this.getCurrentSuit().addBrowser(browser)
 }
 
 Spa.prototype.addEnvOpts = function(opts) {
