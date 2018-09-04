@@ -1,9 +1,4 @@
-const {
-    assertRootDirExist,
-    assertResultDirExist,
-    generateReport,
-    writeFile
-} = require('./utils')
+const {assertResultDirExist, generateReport} = require('./utils')
 
 const {Step} = require('./step')
 
@@ -18,6 +13,7 @@ function Spa() {
     }
 
     this.dirName = toLastDay(`${Date.now()}`)
+    this.runName = ''
     this.opts = {}
     this.suits = []
     this.currentSuit = null
@@ -39,9 +35,9 @@ Spa.prototype.attachStackError = function(err) {
     }
 }
 
-Spa.prototype.getCurrentSuit = function() {
-    return this.currentSuit
-}
+Spa.prototype.getCurrentSuit = function() {return this.currentSuit}
+
+Spa.prototype.addRunName = function(name) {this.runName = name}
 
 Spa.prototype.attachData = function(data) {
     this.getCurrentSuit().getCurrentTest().attachFile(this.dirName, data)
@@ -51,27 +47,22 @@ Spa.prototype.createStep = function(title) {
     this.getCurrentSuit().getCurrentTest().addStep(new Step(title))
 }
 
-Spa.prototype.endSuit = function() {
-    this.currentSuit = null
-}
+Spa.prototype.endSuit = function() {this.currentSuit = null}
 
 Spa.prototype.toJSON = function(stats) {
     const self = this
     return {
         stats,
-        opts: this.opts,
+        runName: self.runName,
+        opts: self.opts,
         browser: self.browser,
         suits: [...self.suits.map(suit => suit.toJSON())]
     }
 }
 
-Spa.prototype.currentBrowser = function(browser) {
-    this.getCurrentSuit().addBrowser(browser)
-}
+Spa.prototype.currentBrowser = function(browser) {this.getCurrentSuit().addBrowser(browser)}
 
-Spa.prototype.addEnvOpts = function(opts) {
-    this.opts = Object.assign(this.opts, opts)
-}
+Spa.prototype.addEnvOpts = function(opts) {this.opts = Object.assign(this.opts, opts)}
 
 Spa.prototype.createReport = function(stats) {
     const fs = require('fs')
