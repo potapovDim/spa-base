@@ -13,7 +13,7 @@ function Spa() {
     }
 
     this.dirName = toLastDay(`${Date.now()}`)
-    this.runName = ''
+    this.runName = 'Run ' + new Date().toDateString() + ' ' + new Date().getHours() + ':' + new Date().getMinutes()
     this.opts = {}
     this.suits = []
     this.currentSuit = null
