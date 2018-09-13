@@ -40,11 +40,17 @@ Spa.prototype.getCurrentSuit = function() {return this.currentSuit}
 Spa.prototype.addRunName = function(name) {this.runName = name}
 
 Spa.prototype.attachData = function(data) {
-    this.getCurrentSuit().getCurrentTest().attachFile(this.dirName, data)
+    var currentTest = this.getCurrentSuit().getCurrentTest()
+    var currentHook = this.getCurrentSuit().getCurrentHook()
+    if(currentHook) {currentHook.attachFile(this.dirName, data)}
+    else {currentTest.attachFile(this.dirName, data)}
 }
 
 Spa.prototype.createStep = function(title) {
-    this.getCurrentSuit().getCurrentTest().addStep(new Step(title))
+    var currentTest = this.getCurrentSuit().getCurrentTest()
+    var currentHook = this.getCurrentSuit().getCurrentHook()
+    if(currentHook) {currentHook.addStep(new Step(title))}
+    else {currentTest.addStep(new Step(title))}
 }
 
 Spa.prototype.endSuit = function() {this.currentSuit = null}
