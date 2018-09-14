@@ -53,6 +53,10 @@ Spa.prototype.createStep = function(title) {
     else {currentTest.addStep(new Step(title))}
 }
 
+Spa.prototype.addTestOptions = function(opts) {
+    this.getCurrentSuit().getCurrentTest().addTestOptions(opts)
+}
+
 Spa.prototype.endSuit = function() {this.currentSuit = null}
 
 Spa.prototype.toJSON = function(stats) {
@@ -81,6 +85,7 @@ Spa.prototype.createReport = function(stats) {
 Spa.prototype.buidPublickApi = function() {
     const self = this
     return {
+        addTestOptions: self.addTestOptions.bind(self),
         createStep: self.createStep.bind(self),
         attachData: self.attachData.bind(self),
         currentBrowser: self.currentBrowser.bind(self),

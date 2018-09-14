@@ -1,9 +1,10 @@
 
-const { idGenerator, outputFile } = require('./utils')
+const {idGenerator, outputFile} = require('./utils')
 
 
 function Test(title) {
     this.timeStart = +new Date()
+    this.testOpts = null
     this.timeEnd = null
     this.speed = null
     this.state = null
@@ -14,13 +15,17 @@ function Test(title) {
     this.currentStep = null
 }
 
-Test.prototype.addStep = function (step) {
+Test.prototype.addStep = function(step) {
     this.currentStep = step
     this.steps.push(step)
 }
 
-Test.prototype.attachStackError = function (stack) {
-    if (JSON.stringify(stack).includes('AssertionError')) {
+Test.prototype.addTestOptions = function(opts) {
+    this.testOpts = opts
+}
+
+Test.prototype.attachStackError = function(stack) {
+    if(JSON.stringify(stack).includes('AssertionError')) {
         this.state = 'fail'
     } else {
         this.state = 'broken'
@@ -28,31 +33,32 @@ Test.prototype.attachStackError = function (stack) {
     this.errorStack = stack
 }
 
-Test.prototype.getCurrentStep = function () {
+Test.prototype.getCurrentStep = function() {
     return this.currentStep
 }
 
-Test.prototype.addFile = function (dir, data) {
+Test.prototype.addFile = function(dir, data) {
     const id = idGenerator(25)
     this.files.push(id)
     outputFile(dir, data, id)
 }
 
-Test.prototype.attachFile = function (dir, file) {
+Test.prototype.attachFile = function(dir, file) {
     this.getCurrentStep()
         ? this.getCurrentStep().addFile(dir, file)
         : this.addFile(dir, file)
 }
 
-Test.prototype.endTest = function (date) {
+Test.prototype.endTest = function(date) {
     this.state = date.state
     this.speed = date.speed
     this.timeEnd = +new Date()
 }
 
-Test.prototype.toJSON = function () {
+Test.prototype.toJSON = function() {
     const self = this
     return {
+        testOptions: self.testOpts,
         title: self.title,
         state: self.state,
         speed: self.speed,
